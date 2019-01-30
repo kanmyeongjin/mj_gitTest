@@ -1,0 +1,42 @@
+build.gradle (project-level)
+
+    Add Firebase Gradle buildscript dependency
+        classpath 'com.google.gms:google-services:4.1.0'
+
+
+ 
+app/build.gradle
+
+    Add Firebase plugin for Gradle
+        apply plugin: 'com.google.gms.google-services'
+
+    build.gradle will include these new dependencies:
+        compile 'com.google.firebase:firebase-config:16.0.0'
+
+
+  mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.default_config);
+
+        mFirebaseRemoteConfig.fetch(0)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            // After config data is successfully fetched, it must be activated before newly fetched
+                            // values are returned.
+                            mFirebaseRemoteConfig.activateFetched();
+                        } else {
+
+                        }
+                        displayMessage();
+                    }
+                });
+
+ void displayMessage(){
+
+        }
